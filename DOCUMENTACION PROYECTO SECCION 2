@@ -1,4 +1,4 @@
-1. CREAMOS LA BD
+*1. CREAMOS LA BD*
 
 2. CONFIGURAMOS EL PROPERTIES
 
@@ -39,6 +39,45 @@
       y para que Spring la reconozca como un componente de servicio y la gestione.
 
 6. CREAMOS EL CONTROLLER
+
+  6.1 Marca el controller con la anotacion @Controller  maneja solicutudes HTTP
+  6.2 (OPCIONAL) @RequestMapping (/personas) --> Asiga una URL raiz 
+  6.3 Inyectamos el servicio
+
+  6.4 Para los metodos CRUD
+    6.4.1 Obtener Todos
+      6.4.1.1 Usamos la anotacion @GetMapping--> asgina un metodo del controlador a un endpoint GET
+      6.4.1.2 Creamos un metodo con parametros de la clase Model que se usa para tarnsferir objetos del controller a la vista
+      6.4.1.3 Creamos una lista de nuestro modelo y usaremos el nombre asignado a nuestra inyeccion para invocar el metodo de Obtener Todo de nuestro Service 
+      6.4.1.4 Usamos model.addAttribute (key, valor), para agregar los atributos del modelo a la vista
+      6.4.1.5 (OPCIONAL) impriminos  con un System el metodo contar usandolo desde nuestra inyeccion 
+      6.4.1.5 Retornmaos el nombre del archivo de la vista (el HTML)
+      6.4.1.6 Vamos a la vista dentro de resources/templates
+        6.4.2.6.1 En la tabla, en la fila (TR) usamos la expresion th:each="persona:${personasLista}" para recorrer nuestra lista -->objeto, key del model
+        6.4.2.6.2 En cada celda (TD) usamos la expresion th:text="${persona.id}" --> objeto del foreach y el atributo del model, repetimos para cada campo
+      
+    6.4.2 Agregar
+
+      6.4.2.1 Creamos un nuevo endpoint (/nuevaPersona) para una nueva vista que usaremos para aregar una persona
+      6.4.2.2 Usamos el model.addAttribute creando el key y creamos la instancia del objeto
+      6.4.2.3 Reeptimos pero como parametros un key (acciones) y como valor el end point que nos llevara a la vista para agregar (/personas/nuevaPersona) 
+      6.4.2.4 Retornamos el html para crear
+
+      6.4.2.4 Creamos un metodo @PostMapping que apuntara a "/nuevaPersona" 
+        6.4.2.4.1 En el metodo usamos la anotacion @ModelAttribute --> Permite obtener los datos del formulario gracias al th:field de la vista,  mapeandolos al objeto
+        6.4.2.4.2 Con la inyeccion llamamos al metodo crear del servicio y le pasamos el objeto
+        6.4.2.4.3 Retornamos con redirect a la vista anterior (/personas) 
+    
+      6.4.2.5 En la vista de crear
+        6.4.2.5.1 Con la expresion th:action="${accion}" --> se especifica la URL destino a la que se enviara este formulario
+        6.4.2.5.2 Con el method="post" --> para indicar que vamos a enviar datos con el metodo post
+        6.4.2.5.3 Con al expresion th:object="${persona}" --> es el key del objeto, se especifica el objeto que se trabajara como modelo para el formulario
+        6.4.2.5.4 En los inputs usamos la expresion th:field="*{nombre}" --> para acceder a los valores del objeto y asignarle lo que se escriba en el input (repetimos para todos los campos)
+
+    6.4.3 Modificar
+    6.4.4 Eliminar
+    
+  
 
 
 
