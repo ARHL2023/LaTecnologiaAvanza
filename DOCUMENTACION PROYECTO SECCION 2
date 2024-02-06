@@ -1,9 +1,10 @@
-*1. CREAMOS LA BD*
+1. CREAMOS LA BD
 
 2. CONFIGURAMOS EL PROPERTIES
 
 3. CREAMOS EL MODELO (ENTIDADES)
-  3.1 usar la anotacion @Entity para mapear la entidad a una tabla de la BD
+
+3.1 usar la anotacion @Entity para mapear la entidad a una tabla de la BD
   3.2 anotaciones importantes:
     3.2.1 @Table --> especifica el nombre con el que se mapeara la tabla con el atributo name
     3.2.2 @Id --> marca atributo como PK
@@ -13,30 +14,27 @@
   4.1 Siempre debe ser una Interface que debe extender de la clase JpaRepository que debe tener la clase model y el tipo de identificador del Id
 
 5. CREAMOS EL SERVICIO
-  5.1 siempre sera Interface con los metodos necesarios (los CRUDS en este caso)
 
+  5.1 siempre sera Interface con los metodos necesarios (los CRUDS en este caso)
     5.1.1 Un metodo obtener todos que sera una Lista del model sin argumentos
     5.1.2 Un metodo de obtener por algun identificador que sera instanciada de la clase del modelo
     5.1.3 Un metodo de modificar que sera instanciado del modelo y como parametros tendremos el identificador y el objeto
     5.1.4 Un metodo que no retorna que es para eliminar que tiene un idntificador
     5.1.5 Un metodo simple sin parametros para contar los registros (OPCIONAL)
-    
-  5.2 creamos en un paquete "imp" una clase que implementara la Interface con sus metodos, esta clase proporcionará la lógica de negocio real.
 
-  5.2.1 Primero inyectamos nuestro Repository con @Autowired 
-  5.2.2 Para el obtener todos simplemente usamos el nombre de nuestra inyeccion y usamos el metodo findAll definida en la clase que extiende nuestro Reposiory 
-  5.2.3 Para obtener por id usamos el mismo procedimeinto pero con el metodo findById y tambien debemos usar el metodo orElse que devolvera un null si no encuentra el objeto
-  5.2.4 Para agregar simplemente usamos el metodo save
-  5.2.5 Para modifica creamos una instancia del Modelo y en vez de crear el objeto (por asi decirlo) se realiza la busqueda por id
+  5.2 creamos en un paquete "imp" una clase que implementara la Interface con sus metodos, esta clase proporcionará la lógica de negocio real.
+    5.2.1 Primero inyectamos nuestro Repository con @Autowired 
+    5.2.2 Para el obtener todos simplemente usamos el nombre de nuestra inyeccion y usamos el metodo findAll definida en la clase que extiende nuestro Reposiory 
+    5.2.3 Para obtener por id usamos el mismo procedimeinto pero con el metodo findById y tambien debemos usar el metodo orElse que devolvera un null si no encuentra el objeto
+    5.2.4 Para agregar simplemente usamos el metodo save
+    5.2.5 Para modifica creamos una instancia del Modelo y en vez de crear el objeto (por asi decirlo) se realiza la busqueda por id
         5.2.5.1 Luego mediante condicion preguntamos si existe (diferente de null)
         5.2.5.1 Con al instancia seteamos el atributo y obtenemos el nuevo valor, hacer para cada campo
         5.2.5.1 Retorna la inyeccion de dependencia y con el mismo metodo de guardar guardamos la instancia creada para este proceso 
         5.2.6 Retornamos null si el objeto no existia
- 5.2.6 Para el eliminar usamos el metodo deleteById
- 5.2.7 (OPCIONAL- ES DEL CONTAR) usamos el metodo count
-
-  5.3 anotamos la clase implementada con @Service para posteriormente ser inyectada en el Controller
-      y para que Spring la reconozca como un componente de servicio y la gestione.
+        5.2.6 Para el eliminar usamos el metodo deleteById
+        5.2.7 (OPCIONAL- ES DEL CONTAR) usamos el metodo count
+  5.3 anotamos la clase implementada con @Service para posteriormente ser inyectada en el Controller y para que Spring la reconozca como un componente de servicio y la gestione.
 
 6. CREAMOS EL CONTROLLER
 
@@ -57,7 +55,6 @@
         6.4.2.6.2 En cada celda (TD) usamos la expresion th:text="${persona.id}" --> objeto del foreach y el atributo del model, repetimos para cada campo
       
     6.4.2 Agregar
-
       6.4.2.1 Creamos un nuevo endpoint (/nuevaPersona) para una nueva vista que usaremos para aregar una persona
       6.4.2.2 Usamos el model.addAttribute creando el key y creamos la instancia del objeto
       6.4.2.3 Reeptimos pero como parametros un key (acciones) y como valor el end point que nos llevara a la vista para agregar (/personas/nuevaPersona) 
