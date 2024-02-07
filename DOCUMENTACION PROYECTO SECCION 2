@@ -1,7 +1,27 @@
 1. CREAMOS LA BD
 
+  CREATE DATABASE bbdd_primeraapp;
+  USE bbdd_primeraapp;
+  SHOW TABLES FROM bbdd_primeraapp;
+  DESCRIBE tbl_personas;
+  SET SQL_SAFE_UPDATES = 0;
+<---------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
 2. CONFIGURAMOS EL PROPERTIES
 
+  #configuraciondes de la BD
+  spring.datasource.url=jdbc:mysql://localhost:3306/bbdd_primeraapp
+  spring.datasource.username=root
+  spring.datasource.password=root
+  spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+  
+  #configuraciondes de JPA
+  #create-drop | update
+  spring.jpa.hibernate.ddl-auto=update
+  spring.jpa.show-sql=true
+  
+  #Dialecto
+  spring.jpa.database-platform=org.hibernate.dialect.MySQL8Dialect
+<---------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
 3. CREAMOS EL MODELO (ENTIDADES)
 
 3.1 usar la anotacion @Entity para mapear la entidad a una tabla de la BD
@@ -9,10 +29,10 @@
     3.2.1 @Table --> especifica el nombre con el que se mapeara la tabla con el atributo name
     3.2.2 @Id --> marca atributo como PK
     3.2.3 @GeneratedValue --> especifica que la PK sera una estrategia con auto incremento
-
+<---------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
 4. CREAMOS EL REPOSITORIO
   4.1 Siempre debe ser una Interface que debe extender de la clase JpaRepository que debe tener la clase model y el tipo de identificador del Id
-
+<---------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
 5. CREAMOS EL SERVICIO
 
   5.1 siempre sera Interface con los metodos necesarios (los CRUDS en este caso)
@@ -35,6 +55,7 @@
         5.2.6 Para el eliminar usamos el metodo deleteById
         5.2.7 (OPCIONAL- ES DEL CONTAR) usamos el metodo count
   5.3 anotamos la clase implementada con @Service para posteriormente ser inyectada en el Controller y para que Spring la reconozca como un componente de servicio y la gestione.
+<---------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
 
 6. CREAMOS EL CONTROLLER
 
@@ -72,11 +93,30 @@
         6.4.2.5.4 En los inputs usamos la expresion th:field="*{nombre}" --> para acceder a los valores del objeto y asignarle lo que se escriba en el input (repetimos para todos los campos)
 
     6.4.3 Modificar
+
+    6.4.3.1 En el Controller:
+      6.4.3.1.1 Creamos un metodo con la anotacion @GetMapping con el endpoint editar y le pasamos el id (/{id}) para diferenciarlo del formulario de crear
+      6.4.3.1.2 Usamos como parametros la anotacion @PathVariable con un atributo id para pasarselo a la URL, la instancia del objeto y el Model 
+      6.4.3.1.3 Usamos el model.addAttribute co nuestro modelo
+	  6.4.3.1.4 Repetimos el paso ateriro pero con la url del action (/personas/editar/" + id)
+	  6.4.3.1.4 Retornamos el formulario para crear/editar
+	  6.4.3.1.5 Creamos el metodo Post donde se actualizara el registro
+				no usamos PutMapping porque eso es para servicios Rest pero eso es otro tema
+				no guardaremos como un uevo registro si no como uno ya existente
+	  6.4.3.1.3 Le pasamos @ModelAttribute con la instancia del modelo para obtener los datos del formulario editar
+      6.4.3.1.4 Usamos la inyeccion usando el metodo editar
+
+    6.4.3.2 En la Vista
+      6.4.3.2 En la vista princioal (listar) le vamos a pasar la ruta para ir al formulario editar --> <a th:href="@{/personas/editar/{id}(id=${persona.id})}">
+      6.4.3.2 En la vista del formulario editar colocamos un campo oculto de Id -->  <input type="hidden" th:field="*{id}">
+      
     6.4.4 Eliminar
-    
-  
-
-
-
-
-
+      6.4.4.1 En el Controller:
+        6.4.4.1.1 Creamos un metodo con @GetMapping conel end point eliminar con su id
+        6.4.4.1.2 Usamos @PathVariable con el id para pasarlo como parametro a la URL
+        6.4.4.1.3 Con la inyeccion invocamos el meotod eliminar
+		6.4.4.1.4 Retornamos con redirect la vista principal
+	
+      6.4.4.2 En la vista:
+		6.4.4.2.1 En al vsiata agregamos la URL de eliminar al boton <a th:href="@{/personas/eliminar/{id}(id=${persona.id})}"> 
+<---------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
