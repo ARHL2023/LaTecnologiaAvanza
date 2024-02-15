@@ -77,9 +77,10 @@
       
     6.4.2 Agregar
       6.4.2.1 Creamos un nuevo endpoint (/nuevaPersona) para una nueva vista que usaremos para aregar una persona
-      6.4.2.2 Usamos el model.addAttribute creando el key y creamos la instancia del objeto
-      6.4.2.3 Reeptimos pero como parametros un key (acciones) y como valor el end point que nos llevara a la vista para agregar (/personas/nuevaPersona) 
-      6.4.2.4 Retornamos el html para crear
+      6.4.2.2 Dentro del model atribite instancianos la clase de nuestro model
+      6.4.2.3 Usamos el model.addAttribute creando el key y creamos la instancia del objeto
+      6.4.2.4 Reeptimos pero como parametros un key (acciones) y como valor el end point que nos llevara a la vista para agregar (/personas/nuevaPersona) 
+      6.4.2.5 Retornamos el html para crear
 
       6.4.2.4 Creamos un metodo @PostMapping que apuntara a "/nuevaPersona" 
         6.4.2.4.1 En el metodo usamos la anotacion @ModelAttribute --> Permite obtener los datos del formulario gracias al th:field de la vista,  mapeandolos al objeto
